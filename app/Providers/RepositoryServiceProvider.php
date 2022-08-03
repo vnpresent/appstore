@@ -4,8 +4,10 @@ namespace App\Providers;
 
 
 use App\Interfaces\AuthRepositoryInterface;
+use App\Interfaces\Software_versionRepositoryInterface;
 use App\Interfaces\SoftwareRepositoryInterface;
 use App\Repositories\AuthRepository;
+use App\Repositories\Software_versionRepository;
 use App\Repositories\SoftwareRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,7 +23,7 @@ class RepositoryServiceProvider extends ServiceProvider
         //
         $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
         $this->app->bind(SoftwareRepositoryInterface::class, SoftwareRepository::class);
-//        $this->app->bind(PostRepositoryInterface::class, PostRepository::class);
+        $this->app->bind(Software_versionRepositoryInterface::class, Software_versionRepository::class);
 //        $this->app->bind(TagRepositoryInterface::class, TagRepository::class);
 //        $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
 //        $this->app->bind(PermissionRepositoryInterface::class, PermissiontRepository::class);

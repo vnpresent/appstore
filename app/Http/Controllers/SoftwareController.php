@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\SoftwareRepositoryInterface;
+use App\Services\SoftwareService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SoftwareController extends Controller
 {
@@ -12,16 +14,17 @@ class SoftwareController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected $softwareRepository;
+    protected $service;
 
-    public function __construct(SoftwareRepositoryInterface $softwareRepository)
+    public function __construct(SoftwareService $service)
     {
-        $this->softwareRepository = $softwareRepository;
+        $this->service = $service;
+//        $this->middleware('auth:api');
     }
 
     public function index()
     {
-        $this->softwareRepository->index();
+        return $this->service->index();
     }
 
     /**
@@ -37,29 +40,40 @@ class SoftwareController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),
+            [
+                'software_name' => 'required|string|min:3',
+                'software_desc' => 'required|string',
+                'software_img' => 'file|image|',
+                'software_type' => 'required|integer|in:0,1',
+            ]);
+        if ($validator->fails())
+            return response()->json(['error' => $validator->errors()]);
+        else
+            return $this->service->store($validator->validated());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
+        return $this->service->show($id);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -70,23 +84,33 @@ class SoftwareController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(),
+            [
+                'software_name' => 'required|string|min:3',
+                'software_desc' => 'required|string',
+                'software_img' => 'file|image|',
+                'software_type' => 'required|integer|in:0,1',
+            ]);
+        if ($validator->fails())
+            return response()->json(['error' => $validator->errors()]);
+        else
+            return $this->service->update($validator->validated(), $id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        return $this->service->delete($id);
     }
 }
