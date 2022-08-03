@@ -20,6 +20,7 @@ class CreateSoftwareTable extends Migration
             $table->text('software_img');
             $table->tinyInteger('software_type');
             $table->integer('user_last_modified_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

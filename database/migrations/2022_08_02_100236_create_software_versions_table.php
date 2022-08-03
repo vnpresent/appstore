@@ -21,6 +21,7 @@ class CreateSoftwareVersionsTable extends Migration
             $table->text('version_desc');
             $table->float('version_size');
             $table->integer('user_last_modified_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -2,22 +2,11 @@
 
 namespace App\Providers;
 
-use App\Interfaces\AdminRepositoryInterface;
+
 use App\Interfaces\AuthRepositoryInterface;
-use App\Interfaces\CommentRepositoryInterface;
-use App\Interfaces\PermissionRepositoryInterface;
-use App\Interfaces\PostRepositoryInterface;
-use App\Interfaces\RoleRepositoryInterface;
-use App\Interfaces\TagRepositoryInterface;
-use App\Interfaces\UserRepositoryInterface;
-use App\Repositories\AdminRepository;
+use App\Interfaces\SoftwareRepositoryInterface;
 use App\Repositories\AuthRepository;
-use App\Repositories\CommentRepository;
-use App\Repositories\PermissiontRepository;
-use App\Repositories\PostRepository;
-use App\Repositories\RoleRepository;
-use App\Repositories\TagRepository;
-use App\Repositories\UserRepository;
+use App\Repositories\SoftwareRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -30,8 +19,8 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         //
-//        $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
-//        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
+        $this->app->bind(SoftwareRepositoryInterface::class, SoftwareRepository::class);
 //        $this->app->bind(PostRepositoryInterface::class, PostRepository::class);
 //        $this->app->bind(TagRepositoryInterface::class, TagRepository::class);
 //        $this->app->bind(CommentRepositoryInterface::class, CommentRepository::class);
