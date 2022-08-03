@@ -19,7 +19,7 @@ class CreateSoftwareVersionsTable extends Migration
             $table->string('version');
             $table->string('link_download');
             $table->text('version_desc');
-            $table->string('version_size');
+            $table->float('version_size');
             $table->integer('user_last_modified_id');
             $table->timestamps();
         });

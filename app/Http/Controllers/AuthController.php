@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AuthService;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -9,8 +10,10 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     //
-    public function __construct()
+    protected $authService;
+    public function __construct(AuthService $authService)
     {
+        $this->authService = $authService;
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
@@ -18,17 +21,13 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'username'=>'string',
-            'password'=>'string|'
+            'password'=>'string'
         ]);
 
         if ($validator->fails())
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Error username or password'], 401);
+        $this->authService->login($validator->validated());
 
-
-
-        $client = new Client();
-        $response = $client->get('');
-        $value = json_decode($response->getBody(), true);
 
 
 

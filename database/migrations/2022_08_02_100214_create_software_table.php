@@ -17,7 +17,7 @@ class CreateSoftwareTable extends Migration
             $table->id();
             $table->string('software_name');
             $table->text('software_desc');
-            $table->string('software_img');
+            $table->text('software_img');
             $table->tinyInteger('software_type');
             $table->integer('user_last_modified_id');
             $table->timestamps();
