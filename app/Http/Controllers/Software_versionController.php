@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Software_versionService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class Software_versionController extends Controller
 {
@@ -11,19 +13,10 @@ class Software_versionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    protected $software_versionService;
+    public function __construct(Software_versionService $software_versionService)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $this->software_versionService = $software_versionService;
     }
 
     /**
@@ -34,7 +27,17 @@ class Software_versionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),
+            [
+                'software_name' => 'required|string|min:3',
+                'software_desc' => 'required|string',
+                'software_img' => 'file|image|',
+                'software_type' => 'required|integer|in:0,1',
+            ]);
+        if ($validator->fails())
+            return response()->json(['error' => $validator->errors()]);
+        else
+            return $this->service->update($validator->validated(), $id);
     }
 
     /**

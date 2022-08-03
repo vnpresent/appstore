@@ -13,9 +13,9 @@ class  SoftwareRepository implements SoftwareRepositoryInterface
 {
     public function index()
     {
-        $softwares = Software::all()->makeHidden(['user_last_modified_id', 'user', 'software_versions']);
+        $softwares = Software::all()->makeHidden(['user_last_modified_id', 'software_versions']);
         for ($i = 0; $i < count($softwares); $i++) {
-            $softwares[$i]['user_last_modified'] = $softwares[$i]->user->makeHidden('access_token');
+            $softwares[$i]->user->makeHidden('access_token');
             $softwares[$i]['last_version'] = $softwares[$i]->software_versions->last();
         }
         return $softwares;
@@ -38,6 +38,7 @@ class  SoftwareRepository implements SoftwareRepositoryInterface
             $software->update(array_merge($data, ['user_last_modified_id' => auth()->user()->id]));
             $software->makeHidden('user_last_modified_id');
         }
+        $software->user->makeHidden('access_token');
         return $software;
     }
 
@@ -45,9 +46,10 @@ class  SoftwareRepository implements SoftwareRepositoryInterface
     {
         $software = Software::find($id);
         if ($software) {
-            $software['software_versions'] = $software->software_versions;
+            $software->user->makeHidden('access_token');
+            $software->software_versions;
             for ($i = 0; $i < count($software['software_versions']); $i++) {
-                $software['software_versions'][$i]['user'] = $software['software_versions'][$i]->user->makeHidden('access_token');
+                $software['software_versions'][$i]->user->makeHidden('access_token');
             }
             return $software;
         } else {

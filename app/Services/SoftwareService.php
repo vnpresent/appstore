@@ -35,8 +35,10 @@ class SoftwareService
         $software = $this->softwareRepository->update($data,$id);
         if ($software)
         {
-            $data['software_img']->storeAs('public/img', $software->id.'.'.$data['software_img']->extension());
-            $software['user_last_modified'] = auth()->user()->makeHidden('access_token');
+            if (isset($data['software_img']))
+            {
+                $data['software_img']->storeAs('public/img', $software->id.'.'.$data['software_img']->extension());
+            }
             return $software;
         }
         else

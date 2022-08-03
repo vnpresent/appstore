@@ -86,7 +86,7 @@ class SoftwareController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -94,7 +94,7 @@ class SoftwareController extends Controller
             [
                 'software_name' => 'required|string|min:3',
                 'software_desc' => 'required|string',
-                'software_img' => 'file|image|',
+                'software_img' => 'file|image',
                 'software_type' => 'required|integer|in:0,1',
             ]);
         if ($validator->fails())
